@@ -1,0 +1,8 @@
+*.log
+
+# Backend files to ignore
+backend/node_modules/
+
+# Frontend files to ignore
+frontend/node_modules/
+
