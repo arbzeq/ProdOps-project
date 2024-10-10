@@ -8,7 +8,7 @@ export function Router(){
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<RegisterPage />}/>
-          <Route element={<LoginPage />} path="login" />
+          <Route element={<LoginPage />} path="login"/>
         </Route>
       </Routes>
     </BrowserRouter>

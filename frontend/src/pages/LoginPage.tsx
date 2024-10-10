@@ -1,18 +1,35 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useRef } from "react";
 import { useAuth } from "../contexts";
+import { userExists } from "../api.ts";
 
 export function LoginPage(): ReactNode {
-  const [loginUsername, setLoginUsername] = useState<string>("");
-  const [loginPassword, setLoginPassword] = useState<string>("");
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const context = useAuth();
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     
     //Look whether the user exists in database.
-
-    let userInDatabase = false;
-    context.login();
+    if(usernameRef.current && passwordRef.current){
+      try {
+        let validateUserResponse = await userExists(usernameRef.current.value, passwordRef.current.value);
+        switch (validateUserResponse.status) {
+          case 200:
+            console.log("Login succesful!");
+            break;
+          case 401:
+            console.log("Invalid password!");
+            break;
+          case 404:
+            console.log("User does not exist!");
+            break;
+        }
+      } catch(error){
+        console.error("Login error");
+        console.error(error);
+      }
+    }
   }
 
   return (
@@ -21,12 +38,12 @@ export function LoginPage(): ReactNode {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="loginUsername">Username</label>
-          <input type="text" onChange={(e) => setLoginUsername(e.target.value)} />
+          <input type="text" ref={usernameRef} />
         </div>
 
         <div>
           <label htmlFor="loginPassword">Password</label>
-          <input type="password" onChange={(e) => setLoginPassword(e.target.value)} />
+          <input type="password" ref={passwordRef} />
         </div>
 
         <button type="submit">Login</button>
