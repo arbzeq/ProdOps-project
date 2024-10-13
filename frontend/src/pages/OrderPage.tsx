@@ -3,22 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts";
 import { userExists } from "../api.ts";
 
-export function LoginPage(): ReactNode {
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+function isPositiveInteger() {
+
+}
+export function OrderPage(): ReactNode {
+  const articleARef = useRef<HTMLInputElement>(null);
+  const articleBRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const context = useAuth();
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     
     //Look whether the user exists in database.
-    if(usernameRef.current && passwordRef.current){
+    if(articleARef.current && articleBRef.current){
+      /*
       try {
-        let validateUserResponse = await userExists(usernameRef.current.value, passwordRef.current.value);
+        let validateUserResponse = await orderArticles(usernameRef.current.value, passwordRef.current.value);
         switch (validateUserResponse.status) {
           case 200:
             console.log("Login succesful!");
             context.login();
+            
             navigate("order");
             break;
           case 401:
@@ -32,21 +37,22 @@ export function LoginPage(): ReactNode {
         console.error("Login error");
         console.error(error);
       }
+      */
     }
   }
 
   return (
     <div>
-      <h1>LOGIN</h1>
+      <h1>ORDER</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="loginUsername">Username</label>
-          <input type="text" ref={usernameRef} />
+          <label htmlFor="articleA">Article A</label>
+          <input type="number" min="1" ref={articleARef} placeholder="Enter a positive integer."/>
         </div>
 
         <div>
-          <label htmlFor="loginPassword">Password</label>
-          <input type="password" ref={passwordRef} />
+          <label htmlFor="articleB">Article B</label>
+          <input type="number" min="1" ref={articleBRef} placeholder="Enter a positive integer."/>
         </div>
 
         <button type="submit">Login</button>

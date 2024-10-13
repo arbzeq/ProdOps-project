@@ -1,0 +1,7 @@
+div.footer {
+  background-color: rgb(37, 93, 143);
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  font-family: "Gugi", sans-serif;
+}

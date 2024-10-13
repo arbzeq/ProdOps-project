@@ -1,13 +1,19 @@
 import { Outlet } from 'react-router-dom';
-import './App.css';
+import './css/App.css';
 import { AuthProvider } from "./contexts";
+import { Header } from "./components";
 
 export function App() {
 
   return (
-    <AuthProvider>
-      <Outlet />
-    </AuthProvider>
+    <>
+      <Header />
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+      
+    </>
+    
       
   )
 }
