@@ -1,0 +1,38 @@
+const dbQuery_doesUserExist = async (pool, username) => {
+  /* This function will return whether a user exists or not. */
+  const query = `
+    SELECT
+        CASE
+          WHEN EXISTS(SELECT 1 FROM USERS WHERE username = $1)
+          THEN 'USER_EXISTS'
+          ELSE 'USER_DOES_NOT_EXIST'
+        END AS user_status;
+  `;
+  let result = await pool.query(query, [username]);
+  return result.rows[0].user_status;
+}
+
+
+export async function createUser (pool, req, res, getRequestBody) {
+
+  const body = await getRequestBody(req);
+  const { username, password } = JSON.parse(body);
+  let databaseResponse = await dbQuery_doesUserExist(pool, username);
+
+  // Create the user if the user does not exist.
+  if (databaseResponse == 'USER_DOES_NOT_EXIST') {
+    const result = await pool.query(
+      'INSERT INTO users (username, password) VALUES ($1, $2)',
+      [username, password]
+    );
+
+    res.writeHead(201,  { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'User created succesfully.' }));
+    
+  // Throw a 409 conflict response if a user exists
+  } else { 
+    res.writeHead(409,  { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'User already exists.' }));
+  }
+
+}

@@ -1,6 +1,6 @@
 import { ReactNode, useRef } from "react";
 import { useAuth } from "../contexts";
-import { createUser } from "../api";
+import { userAPI } from "../api";
 
 export function RegisterPage(): ReactNode {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -11,19 +11,12 @@ export function RegisterPage(): ReactNode {
     event.preventDefault();
 
     if(usernameRef.current && passwordRef.current){
+      const userNameValue = usernameRef.current.value;
+      const passwordValue = passwordRef.current.value;
       try {
-        let createUserResponse = await createUser(usernameRef.current.value, passwordRef.current.value);
-        switch (createUserResponse.status) {
-          case 201:
-            console.log("User succesfully created!");
-            break;
-          case 409:
-            console.log("User already exists!");
-            break;
-        }
-
+        const apiResponse = await userAPI("register", userNameValue, passwordValue);
+        console.log(apiResponse);
       } catch(error){
-        console.log("Register Error");
         console.error(error);
       }
     }

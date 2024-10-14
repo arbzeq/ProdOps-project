@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts";
-import { userExists } from "../api.ts";
+import { userAPI } from "../api.ts";
 
 export function LoginPage(): ReactNode {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -13,21 +13,12 @@ export function LoginPage(): ReactNode {
     
     //Look whether the user exists in database.
     if(usernameRef.current && passwordRef.current){
+      const userNameValue = usernameRef.current.value;
+      const passwordValue = passwordRef.current.value;
+
       try {
-        let validateUserResponse = await userExists(usernameRef.current.value, passwordRef.current.value);
-        switch (validateUserResponse.status) {
-          case 200:
-            console.log("Login succesful!");
-            context.login();
-            navigate("order");
-            break;
-          case 401:
-            console.log("Invalid password!");
-            break;
-          case 404:
-            console.log("User does not exist!");
-            break;
-        }
+        let apiResponse = await userAPI("validateUser", userNameValue, passwordValue);
+        console.log(apiResponse);
       } catch(error){
         console.error("Login error");
         console.error(error);

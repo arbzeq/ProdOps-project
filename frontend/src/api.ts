@@ -1,5 +1,6 @@
-export async function userExists(username: string, password: string) {
-  const response = await fetch('http://localhost:5000/api/exists',
+export async function userAPI(endpoint: string, username: string, password: string) {
+  
+  const response = await fetch(`http://localhost:5000/api/${endpoint}`,
     {
       method: "POST",
       headers: {
@@ -9,23 +10,14 @@ export async function userExists(username: string, password: string) {
     }
   );
   
+  const responseMessage = (await response.json()).message;
   
-  return response;
-}
+  if(!response.ok){
+    throw new Error(responseMessage);
+  }
 
-export async function createUser(username: string, password: string) {
-  const response = await fetch('http://localhost:5000/api/register',
-    {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password })
-    }
-  );
-  return response;
-  
-} 
+  return responseMessage;
+};
 
 export async function orderArticles(articleA: string, articleB: string) {
   const response = await fetch('http://localhost:5000/api/register',
@@ -38,5 +30,4 @@ export async function orderArticles(articleA: string, articleB: string) {
     }
   );
   return response;
-  
-} 
+}

@@ -1,0 +1,7 @@
+Ändra namn på användare
+
+Delete anändare!
+
+En bild konverteras till en Base64 sträng.
+
+Lägg till beskrivning av artiklar
