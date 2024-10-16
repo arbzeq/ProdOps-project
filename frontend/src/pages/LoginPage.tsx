@@ -2,6 +2,7 @@ import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts";
 import { userAPI } from "../api.ts";
+import "../css/forms.css";
 
 export function LoginPage(): ReactNode {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -27,15 +28,15 @@ export function LoginPage(): ReactNode {
   }
 
   return (
-    <div>
-      <h1>LOGIN</h1>
+    <div className="loginPage">
+      <h2>LOGIN</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="loginUsername">Username</label>
           <input type="text" ref={usernameRef} />
         </div>
 
-        <div>
+        <div className="inputContainer">
           <label htmlFor="loginPassword">Password</label>
           <input type="password" ref={passwordRef} />
         </div>

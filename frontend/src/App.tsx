@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import './css/App.css';
 import { AuthProvider } from "./contexts";
-import { Header } from "./components";
+import { Header, Footer } from "./components";
 
 export function App() {
 
@@ -11,7 +11,7 @@ export function App() {
       <AuthProvider>
         <Outlet />
       </AuthProvider>
-      
+      <Footer />
     </>
     
       

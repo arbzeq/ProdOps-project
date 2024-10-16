@@ -4,14 +4,31 @@ div.header {
   justify-content: space-around;
   padding: 1rem;
   font-family: "Gugi", sans-serif;
-  
-  & a {
-    font-size: 30px;
-    text-decoration: none;
-    color: white;
-    transition: transform 0.5s;
-    &:hover {
-      transform: scale(1.2);
+  width: 100%;
+
+  & > div.headerContainer {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    & > nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 3rem;
+
+      & > a {
+        text-decoration: none;
+        color: white;
+        transition: transform 0.5s; 
+
+        &:hover {
+          color: red;
+          transform: scale(1.2);
+        }
+      }
     }
   }
 }

@@ -2,6 +2,7 @@ import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts";
 import { userExists } from "../api.ts";
+import "../css/forms.css";
 
 function isPositiveInteger() {
 
@@ -42,15 +43,15 @@ export function OrderPage(): ReactNode {
   }
 
   return (
-    <div>
-      <h1>ORDER</h1>
+    <div className="orderPage">
+      <h2>ORDER</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="articleA">Article A</label>
           <input type="number" min="1" ref={articleARef} placeholder="Enter a positive integer."/>
         </div>
 
-        <div>
+        <div className="inputContainer">
           <label htmlFor="articleB">Article B</label>
           <input type="number" min="1" ref={articleBRef} placeholder="Enter a positive integer."/>
         </div>

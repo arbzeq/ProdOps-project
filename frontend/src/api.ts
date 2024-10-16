@@ -1,4 +1,6 @@
-export async function userAPI(endpoint: string, username: string, password: string) {
+import { IUser } from "./interfaces/interfaces.ts";
+
+export async function userAPI(endpoint: string, user: IUser) {
   
   const response = await fetch(`http://localhost:5000/api/${endpoint}`,
     {
@@ -6,7 +8,7 @@ export async function userAPI(endpoint: string, username: string, password: stri
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify(user)
     }
   );
   

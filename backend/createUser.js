@@ -14,18 +14,19 @@ const dbQuery_doesUserExist = async (pool, username) => {
 
 
 export async function createUser (pool, req, res, getRequestBody) {
-
+  
   const body = await getRequestBody(req);
-  const { username, password } = JSON.parse(body);
-  let databaseResponse = await dbQuery_doesUserExist(pool, username);
-
+  
+  let databaseResponse = await dbQuery_doesUserExist(pool, body.username);
+  
   // Create the user if the user does not exist.
   if (databaseResponse == 'USER_DOES_NOT_EXIST') {
     const result = await pool.query(
-      'INSERT INTO users (username, password) VALUES ($1, $2)',
-      [username, password]
+      'INSERT INTO users (username, password, isAdmin) VALUES ($1, $2, $3)',
+      Object.values(body)
     );
 
+    
     res.writeHead(201,  { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'User created succesfully.' }));
     

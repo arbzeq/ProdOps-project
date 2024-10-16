@@ -32,7 +32,7 @@ const getRequestBody = (req) => {
     });
 
     req.on('end', () => {
-      resolve(body);
+      resolve(JSON.parse(body));
     })
 
     req.on('error', (error) => {

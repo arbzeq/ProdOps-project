@@ -7,7 +7,7 @@ export function Router(){
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<RegisterPage />}/>
+          <Route element={<RegisterPage />} path="register" />
           <Route element={<LoginPage />} path="login" />
           <Route element={<OrderPage />} path="order" />
         </Route>

@@ -5,9 +5,14 @@ import "../css/Header.css";
 export function Header() : ReactNode {
   return (
     <div className="header">
-      <Link to="login">Login</Link>
-      <Link to="register">Register</Link>
-      <Link to="order">Order</Link>
+      <div className="headerContainer">
+        <h1>ProdOps</h1>
+        <nav>
+          <Link to="login">Login</Link>
+          <Link to="register">Register</Link>
+          <Link to="order">Order</Link>
+        </nav>
+      </div>
     </div>   
   );
 }

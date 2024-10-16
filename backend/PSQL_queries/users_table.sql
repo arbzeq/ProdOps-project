@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	username VARCHAR(10) NOT NULL,
+	password VARCHAR(20) NOT NULL,
+  isAdmin BOOLEAN NOT NULL
+);
