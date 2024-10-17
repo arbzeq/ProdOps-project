@@ -1,8 +1,6 @@
-const dbQuery_validateUser = async (pool, username, password) => {
+const dbQuery_validateUser = async (pool, username) => {
   /*
-  This function will return the HTTP response based on 
-  whether a user exists, wrong password or everything is correct.
-  */
+  This function will return the user if it exists.
   const query = `
     WITH validate_user AS (
       SELECT
@@ -20,31 +18,41 @@ const dbQuery_validateUser = async (pool, username, password) => {
         ELSE (SELECT password_status FROM validate_user)
       END AS "result";
   `;
-  let result = await pool.query(query, [username, password]);
-  return result.rows[0].result;
+  */
+
+  const query = `SELECT * FROM USERS WHERE username = $1`;
+  let result = await pool.query(query, [username]);
+  return result.rows;
 }
 
 export async function validateUser(pool, req, res, getRequestBody){
 
+  const reqBody = await getRequestBody(req);
+  console.log(reqBody);
   
-  const body = await getRequestBody(req);
-  const { username, password } = JSON.parse(body);
-  const databaseResponse = await dbQuery_validateUser(pool, username, password);
+
+  const databaseResponse = await dbQuery_validateUser(pool, reqBody.username);
   console.log("Coming here?");
   console.log(databaseResponse);
-  switch (databaseResponse) {
-    case 'USER_NOT_FOUND':
-      res.writeHead(404,  { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'User not found.' }));
-      break;
-    case 'INCORRECT_PASSWORD':
+  console.log(databaseResponse.length);
+   
+  if(databaseResponse.length == 0){
+    res.writeHead(404,  { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'User not found.' }));
+    return;
+  }
+  
+  const user = databaseResponse[0];
+  console.log("Coming here 2?");
+  console.log(user);
+  
+  if (user.password != reqBody.password) {
       res.writeHead(401,  { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Incorrect password.' }));
-      break;
-    case 'VALID_AUTHENTICATION':
-      res.writeHead(200,  { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ message: 'Logged in succesfully.' }));
-      break;  
+      return;
   }
+
+  res.writeHead(200,  { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(user));  
 }
 

@@ -2,7 +2,7 @@ import { IUser } from "./interfaces/interfaces.ts";
 
 export async function userAPI(endpoint: string, user: IUser) {
   
-  const response = await fetch(`http://localhost:5000/api/${endpoint}`,
+  let response = await fetch(`http://localhost:5000/api/${endpoint}`,
     {
       method: "POST",
       headers: {
@@ -12,13 +12,26 @@ export async function userAPI(endpoint: string, user: IUser) {
     }
   );
   
-  const responseMessage = (await response.json()).message;
-  
+  const responseJSON = await response.json();
+
   if(!response.ok){
-    throw new Error(responseMessage);
+    throw new Error(responseJSON.message);
   }
 
-  return responseMessage;
+  if(endpoint == "register"){
+    return responseJSON.message;
+  }
+
+  if(endpoint == "validateUser") {
+    // Return user with IUser structure
+    const mappedUser: IUser = {
+      username: responseJSON.username,
+      password: responseJSON.password,
+      isAdmin: responseJSON.isadmin
+    };
+
+    return mappedUser;
+  }
 };
 
 export async function orderArticles(articleA: string, articleB: string) {

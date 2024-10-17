@@ -1,11 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-interface IAuthContext {
-  isLoggedIn: boolean;
-  login: () => void;
-  logout: () => void;
-}
-
 interface IAuthProviderProps {
   children: ReactNode;
 }
