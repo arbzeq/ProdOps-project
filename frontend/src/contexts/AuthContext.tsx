@@ -1,23 +1,30 @@
 import { createContext, ReactNode, useContext, useState } from "react";
+import { IAuthContext }from "../interfaces/interfaces.ts";
 
 interface IAuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<IAuthContext | undefined>(undefined);
+const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export function AuthProvider( {children} : IAuthProviderProps) {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  function login() {
+  function login(username: string, isAdmin: boolean) {
     setLoggedIn(true);
+    setUsername(username);
+    setIsAdmin(isAdmin);
   }
 
   function logout() {
     setLoggedIn(false);
+    setUsername("");
+    setIsAdmin(false);
   }
 
-  const initialContextObject = {isLoggedIn, login, logout};
+  const initialContextObject = {isLoggedIn, login, logout, username, isAdmin};
 
   return (
     <AuthContext.Provider value={initialContextObject}>

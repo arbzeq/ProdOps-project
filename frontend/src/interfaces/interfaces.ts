@@ -6,6 +6,8 @@ export interface IUser {
 
 export interface IAuthContext {
   isLoggedIn: boolean;
-  login: () => void;
+  login: (username: string, isAdmin: boolean) => void;
   logout: () => void;
+  username: string;
+  isAdmin: boolean;
 }

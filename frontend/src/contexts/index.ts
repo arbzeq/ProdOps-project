@@ -1,1 +1,1 @@
-export { useAuth, AuthProvider, AuthContext } from "./AuthContext.tsx";
+export { useAuth, AuthProvider } from "./AuthContext.tsx";

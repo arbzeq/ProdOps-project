@@ -9,7 +9,8 @@ export function LoginPage(): ReactNode {
   const usernameRef = useRef<HTMLInputElement>(null!);
   const passwordRef = useRef<HTMLInputElement>(null!);
   const navigate = useNavigate();
-  const context = useAuth();
+  const userContext = useAuth();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     
@@ -23,6 +24,8 @@ export function LoginPage(): ReactNode {
     try {
       let user = await userAPI("validateUser", userToAuthenticate);
       console.log(user);
+      userContext.login(user.username, user.isAdmin);
+      navigate("/myaccount");
     } catch(error){
       console.error(error);
     }
