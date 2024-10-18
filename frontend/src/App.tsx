@@ -7,11 +7,11 @@ export function App() {
 
   return (
     <>
-      <Header />
       <AuthProvider>
-        <Outlet />
+        <Header />
+          <Outlet />
+        <Footer />
       </AuthProvider>
-      <Footer />
     </>
     
       
