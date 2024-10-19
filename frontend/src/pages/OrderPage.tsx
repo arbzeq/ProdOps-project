@@ -1,45 +1,15 @@
 import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts";
-import { userExists } from "../api.ts";
 import "../css/forms.css";
 
-function isPositiveInteger() {
-
-}
 export function OrderPage(): ReactNode {
   const articleARef = useRef<HTMLInputElement>(null);
   const articleBRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
-  const context = useAuth();
+  const authContext = useAuth();
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     
-    //Look whether the user exists in database.
-    if(articleARef.current && articleBRef.current){
-      /*
-      try {
-        let validateUserResponse = await orderArticles(usernameRef.current.value, passwordRef.current.value);
-        switch (validateUserResponse.status) {
-          case 200:
-            console.log("Login succesful!");
-            context.login();
-            
-            navigate("order");
-            break;
-          case 401:
-            console.log("Invalid password!");
-            break;
-          case 404:
-            console.log("User does not exist!");
-            break;
-        }
-      } catch(error){
-        console.error("Login error");
-        console.error(error);
-      }
-      */
-    }
   }
 
   return (

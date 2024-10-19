@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { IAuthContext }from "../interfaces/interfaces.ts";
 
 interface IAuthProviderProps {
@@ -8,6 +8,13 @@ interface IAuthProviderProps {
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export function AuthProvider( {children} : IAuthProviderProps) {
+
+
+  useEffect(() => {
+    localStorage.setItem('logs', JSON.stringify(["AuthContext Mount!"]));
+    
+  }, [])
+
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);

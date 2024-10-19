@@ -9,6 +9,8 @@
 
 import { createUser } from './createUser.js'; 
 import { validateUser } from './validateUser.js'; 
+import { removeUser } from './removeUser.js'; 
+
 import http from 'http';
 import pg from 'pg';
 
@@ -73,9 +75,11 @@ const requestListener = async (req, res) => {
     
   // This is the API request to validate the login. 
   } else if (req.method == "POST" && req.url == "/api/validateUser") {
-    
     await validateUser(pool, req, res, getRequestBody);
+  } else if (req.method == "POST" && req.url == "/api/removeUser") {
+    await removeUser(pool, req, res, getRequestBody);
   }
+
 };
 
 const server = http.createServer(requestListenerWithErrorHandling(requestListener));

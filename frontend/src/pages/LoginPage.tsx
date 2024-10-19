@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { IUser } from "../interfaces/interfaces.ts";
 import { useAuth } from "../contexts";
 import { userAPI } from "../api.ts";
@@ -9,7 +9,13 @@ export function LoginPage(): ReactNode {
   const usernameRef = useRef<HTMLInputElement>(null!);
   const passwordRef = useRef<HTMLInputElement>(null!);
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const userContext = useAuth();
+
+  if(userContext.isLoggedIn){
+    navigate("dashboard");
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,9 +29,9 @@ export function LoginPage(): ReactNode {
 
     try {
       let user = await userAPI("validateUser", userToAuthenticate);
-      console.log(user);
       userContext.login(user.username, user.isAdmin);
-      navigate("/myaccount");
+      navigate("/dashboard");
+
     } catch(error){
       console.error(error);
     }

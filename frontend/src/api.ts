@@ -1,12 +1,24 @@
 import { IUser } from "./interfaces/interfaces.ts";
 
+export async function removeUser(username: string) {
+  let response = await fetch('http://localhost:5000/api/removeUser',
+    {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(username)
+    }
+  );
+}
+
 export async function userAPI(endpoint: string, user: IUser) {
   
   let response = await fetch(`http://localhost:5000/api/${endpoint}`,
     {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(user)
     }
