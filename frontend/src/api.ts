@@ -55,7 +55,7 @@ export async function userAPI(endpoint: string, user: IUser) {
 };
 
 export async function orderArticles(articleA: string, articleB: string) {
-  const response = await fetch('http://localhost:5000/api/register',
+  const response = await fetch('http://localhost:5000/api/orderArticles',
     {
       method: "POST",
       headers: {
@@ -64,5 +64,13 @@ export async function orderArticles(articleA: string, articleB: string) {
       body: JSON.stringify({ articleA, articleB })
     }
   );
-  return response;
+
+  
+  const responseJSON = await response.json();
+
+  if(!response.ok){
+    throw new Error(responseJSON.message);
+  }
+
+  return responseJSON.message;
 }

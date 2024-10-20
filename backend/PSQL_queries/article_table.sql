@@ -11,8 +11,11 @@ values
 	('ARTICLE_A', 0), 
 	('ARTICLE_B', 0);
 
-update articles
-set article_count = 2
-where article_name = 'ARTICLE_A';
+UPDATE articles
+    SET article_count = CASE
+      WHEN article_name = 'ARTICLE_A' THEN article_count + $1
+      WHEN article_name = 'ARTICLE_B' THEN article_count + $2
+    END
+RETURNING *;
 
 select * from articles;

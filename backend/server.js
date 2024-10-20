@@ -10,6 +10,7 @@
 import { createUser } from './createUser.js'; 
 import { validateUser } from './validateUser.js'; 
 import { removeUser } from './removeUser.js'; 
+import { orderArticles } from './orderArticles.js'; 
 
 import http from 'http';
 import pg from 'pg';
@@ -77,6 +78,8 @@ const requestListener = async (req, res) => {
     await validateUser(pool, req, res, getRequestBody);
   } else if (req.method == "POST" && req.url == "/api/removeUser") {    
     await removeUser(pool, req, res, getRequestBody);
+  } else if (req.method == "POST" && req.url == "/api/orderArticles") {    
+    await orderArticles(pool, req, res, getRequestBody);
   }
 
 };

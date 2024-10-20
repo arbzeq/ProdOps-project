@@ -1,15 +1,23 @@
 import { ReactNode, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts";
+import { orderArticles } from "../api.ts"
 import "../css/forms.css";
 
 export function OrderPage(): ReactNode {
-  const articleARef = useRef<HTMLInputElement>(null);
-  const articleBRef = useRef<HTMLInputElement>(null);
-  const authContext = useAuth();
+  const articleARef = useRef<HTMLInputElement>(null!);
+  const articleBRef = useRef<HTMLInputElement>(null!);
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    
+    try {
+      const articleAToAdd = articleARef.current.value;
+      const articleBToAdd = articleBRef.current.value;
+      
+      const orderResponse = await orderArticles(articleAToAdd, articleBToAdd);
+      console.log(orderResponse);
+    } catch(error) {
+      console.log(error);
+    }
+
   }
 
   return (
@@ -26,7 +34,7 @@ export function OrderPage(): ReactNode {
           <input type="number" min="1" ref={articleBRef} placeholder="Enter a positive integer."/>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit">Order</button>
       </form>
 
     </div>

@@ -5,10 +5,10 @@ export async function removeUser (pool, req, res, getRequestBody) {
   let databaseResponse = await pool.query(query, [username]);
   
   if (databaseResponse.rowCount > 0) {
-    res.writeHead(201,  { 'Content-Type': 'application/json' });
+    res.writeHead(200,  { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'User removed succesfully.' }));
   } else {
-    res.writeHead(409,  { 'Content-Type': 'application/json' });
+    res.writeHead(404,  { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: `User doesn't exists.` }));
   }
 }
