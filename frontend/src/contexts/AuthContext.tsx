@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+
 import { IAuthContext }from "../interfaces/interfaces.ts";
+import { useNavigate } from "react-router-dom";
 
 interface IAuthProviderProps {
   children: ReactNode;
@@ -8,7 +10,7 @@ interface IAuthProviderProps {
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export function AuthProvider( {children} : IAuthProviderProps) {
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem('logs', JSON.stringify(["AuthContext Mount!"]));
@@ -23,12 +25,14 @@ export function AuthProvider( {children} : IAuthProviderProps) {
     setLoggedIn(true);
     setUsername(username);
     setIsAdmin(isAdmin);
+    navigate("/dashboard");
   }
 
   function logout() {
     setLoggedIn(false);
     setUsername("");
     setIsAdmin(false);
+    navigate("/login");
   }
 
   const initialContextObject = {isLoggedIn, login, logout, username, isAdmin};

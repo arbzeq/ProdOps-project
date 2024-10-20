@@ -26,16 +26,11 @@ const dbQuery_validateUser = async (pool, username) => {
 }
 
 export async function validateUser(pool, req, res, getRequestBody){
-
+  console.log("At validateUser");
   const reqBody = await getRequestBody(req);
-  console.log(reqBody);
-  
 
   const databaseResponse = await dbQuery_validateUser(pool, reqBody.username);
-  console.log("Coming here?");
-  console.log(databaseResponse);
-  console.log(databaseResponse.length);
-   
+
   if(databaseResponse.length == 0){
     res.writeHead(404,  { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'User not found.' }));
@@ -43,8 +38,6 @@ export async function validateUser(pool, req, res, getRequestBody){
   }
   
   const user = databaseResponse[0];
-  console.log("Coming here 2?");
-  console.log(user);
   
   if (user.password != reqBody.password) {
       res.writeHead(401,  { 'Content-Type': 'application/json' });

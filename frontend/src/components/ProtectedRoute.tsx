@@ -12,6 +12,7 @@ export function ProtectedRoute( props :ProtectedRouteProps) {
   // Default requiresAdmin to false
   const requiresAdmin = props.requiresAdmin ?? false;
   
+  /*
   const logs = JSON.parse(localStorage.getItem('logs') || '[]');
   const message = `----------------------
   Now in Protected Route with the following data:
@@ -21,7 +22,7 @@ export function ProtectedRoute( props :ProtectedRouteProps) {
   ----------------------`;
   logs.push(message);
   localStorage.setItem('logs', JSON.stringify(logs));
-
+  */
 
   if(!authContext.isLoggedIn){
     return <Navigate to="/login" />;

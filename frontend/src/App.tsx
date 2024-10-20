@@ -5,13 +5,14 @@ import { Header, Footer } from "./components";
 import { useEffect } from 'react';
 
 export function App() {
+  /*
   const location = useLocation(); // Hook to get the current route
-
   useEffect(() => {
     const logs = JSON.parse(localStorage.getItem('logs') || '[]');
     console.log(logs);
     
   }, [location])
+  */
   return (
     <>
       <AuthProvider>

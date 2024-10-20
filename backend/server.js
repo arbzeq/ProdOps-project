@@ -58,7 +58,7 @@ const requestListenerWithErrorHandling = (callbackFn) => {
 
 
 const requestListener = async (req, res) => {
-  
+  console.log(`Request received: ${req.method} ${req.url}`);
   // Set CORS headers for all responses
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Allow your frontend origin
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow methods
@@ -72,11 +72,10 @@ const requestListener = async (req, res) => {
   
   if (req.method === 'POST' && req.url === '/api/register') {
     await createUser(pool, req, res, getRequestBody);
-    
   // This is the API request to validate the login. 
   } else if (req.method == "POST" && req.url == "/api/validateUser") {
     await validateUser(pool, req, res, getRequestBody);
-  } else if (req.method == "POST" && req.url == "/api/removeUser") {
+  } else if (req.method == "POST" && req.url == "/api/removeUser") {    
     await removeUser(pool, req, res, getRequestBody);
   }
 

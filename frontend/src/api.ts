@@ -10,6 +10,14 @@ export async function removeUser(username: string) {
       body: JSON.stringify(username)
     }
   );
+
+  const responseJSON = await response.json();
+
+  if(!response.ok){
+    throw new Error(responseJSON.message);
+  }
+
+  return responseJSON.message;
 }
 
 export async function userAPI(endpoint: string, user: IUser) {
