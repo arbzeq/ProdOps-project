@@ -11,6 +11,8 @@ import { createUser } from './createUser.js';
 import { validateUser } from './validateUser.js'; 
 import { removeUser } from './removeUser.js'; 
 import { orderArticles } from './orderArticles.js'; 
+import { state } from './EventHandler.js';
+
 
 import http from 'http';
 import pg from 'pg';
@@ -59,7 +61,7 @@ const requestListenerWithErrorHandling = (callbackFn) => {
 
 
 const requestListener = async (req, res) => {
-  console.log(`Request received: ${req.method} ${req.url}`);
+  //console.log(`Request received: ${req.method} ${req.url}`);
   // Set CORS headers for all responses
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Allow your frontend origin
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow methods
@@ -80,12 +82,27 @@ const requestListener = async (req, res) => {
     await removeUser(pool, req, res, getRequestBody);
   } else if (req.method == "POST" && req.url == "/api/orderArticles") {    
     await orderArticles(pool, req, res, getRequestBody);
+  } else if (req.method == "GET" && req.url == "/api/getStatus") {  
+    const articleCountQuery = await pool.query("SELECT * FROM articles"); 
+    
+    const stateToSend = {
+      ...state,
+      ARTICLEA: articleCountQuery.rows[0].article_count,
+      ARTICLEB: articleCountQuery.rows[1].article_count
+    };
+    console.log("StateToSend:", stateToSend);
+    res.writeHead(200,  { 'Content-Type': 'application/json' });
+    
+    res.end(JSON.stringify(stateToSend));
   }
 
 };
 
+
 const server = http.createServer(requestListenerWithErrorHandling(requestListener));
+
 
 server.listen(5000, () => {
   console.log('Server is running on http://localhost:5000');
+  
 });

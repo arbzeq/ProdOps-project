@@ -74,3 +74,25 @@ export async function orderArticles(articleA: string, articleB: string) {
 
   return responseJSON.message;
 }
+
+
+
+export async function getStatus() {
+  const response = await fetch('http://localhost:5000/api/getStatus',
+    {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
+  );
+
+  
+  const responseJSON = await response.json();
+
+  if(!response.ok){
+    throw new Error(responseJSON.message);
+  }
+
+  return responseJSON;
+}
